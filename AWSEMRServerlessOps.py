@@ -30,16 +30,16 @@ class AWSEMRServerlessOperations:
             applicationId=appId
         )
     def emr_serverless_start_spark_job_run(self, appId: str, rolearn: str, entryPoint: str,entryPointArgs: str):
-
+        sparkSubmitconf = {
+        'entryPoint': 's3://us-east-1.elasticmapreduce/emr-containers/samples/wordcount/scripts/wordcount.py',
+        'entryPointArguments': ["s3://awsglue081222/wordcount_output"],
+        'sparkSubmitParameters': "--conf spark.executor.cores=1 --conf spark.executor.memory=4g --conf spark.driver.cores=1 --conf spark.driver.memory=4g --conf spark.executor.instances=1"
+        }
         return self.client.start_job_run(
             applicationId=appId,
             executionRoleArn='arn:aws:iam::272350763384:role/awsemrserverlessops',
             jobDriver={
-                'sparkSubmit': {
-                    'entryPoint': 's3://us-east-1.elasticmapreduce/emr-containers/samples/wordcount/scripts/wordcount.py',
-                    "entryPointArguments": ["s3://awsglue081222/wordcount_output"],
-                    "sparkSubmitParameters": "--conf spark.executor.cores=1 --conf spark.executor.memory=4g --conf spark.driver.cores=1 --conf spark.driver.memory=4g --conf spark.executor.instances=1"
-                }
+                'sparkSubmit': sparkSubmitconf
             },
             configurationOverrides={
                 'monitoringConfiguration': {
