@@ -31,13 +31,6 @@ def exception_handler(e):
         'body': json.dumps(str(e))
     }
 
-def validateJSON(jsonData):
-    try:
-        json.loads(jsonData)
-    except ValueError as err:
-        return False
-    return True
-
 def env_details():
     print("Boto3 version being used is {}".format(boto3.__version__))
     print("BotoCore version being used is {}".format(botocore.__version__))
@@ -46,55 +39,30 @@ def env_details():
 def delete_emr_serverless_app(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_delete_application(appId)
-    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-    #     return json.dumps(response)
-    # else:
-    #     return "you are in trouble!"
 
 def start_emr_serverless_app(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_start_application(appId)
-    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-    #     return json.dumps(response)
-    # else:
-    #     return "you are in trouble!"
 
 def stop_emr_serverless_app(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_stop_application(appId)
-    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-    #     return json.dumps(response)
-    # else:
-    #     return "you are in trouble!"
 
 def get_emr_serverless_app_status(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_get_application_status(appId)
-    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-    #     return json.dumps(response)
-    # else:
-    #     return "you are in trouble!"
 
 def start_emr_serverless_job_run(jobrunname: str, appId: str, rolearn: str, entryPoint: str,entryPointArgs: str, sparkSubmitParameters: str,loguri: str, contact: str, environment: str, exectimeout: int):
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_start_spark_job_run(jobrunname, appId, rolearn, entryPoint,entryPointArgs, sparkSubmitParameters,loguri, contact, environment, exectimeout)
-    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-    #     return json.dumps(response)
-    # else:
-    #     return "you are in trouble!"
 
 def create_emr_serverless_app(appname: str, apptype: str, releaselabel: str, driver_init_worker_count: int, driver_init_vcpu: str, driver_init_memory: str, driver_init_disk: str, executor_init_worker_count: int, executor_init_vcpu: str, executor_init_memory:str, executor_init_disk:str, max_cpu:str, max_memory:str, autostart_enabled: bool, autostop_enabled: bool, autostop_idletimeout_in_mins: int, contact: str, environment: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_create_application(appname, apptype, releaselabel, driver_init_worker_count, driver_init_vcpu, driver_init_memory, driver_init_disk, executor_init_worker_count, executor_init_vcpu, executor_init_memory, executor_init_disk, max_cpu, max_memory, eval(autostart_enabled), eval(autostop_enabled), autostop_idletimeout_in_mins, contact, environment)
-    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-    #     return json.dumps(response)
-    # else:
-    #     return "you are in trouble!"
 
 def list_emr_serverless_apps():
     AWSEMRSLOps = AWSEMRServerlessOperations()
-    response = AWSEMRSLOps.emr_serverless_list_applications()
-    return response
+    return AWSEMRSLOps.emr_serverless_list_applications()
 
 def lambda_handler(event, context):
     env_details()
@@ -216,14 +184,14 @@ def lambda_handler(event, context):
                 print("I got contact")
             except:
                 print("I cant see contact")
-                responsedata = "contact needs to be defined else program will fail!"
+                return exception_handler("contact needs to be defined else program will fail!")
 
             try:
                 environment = requestparams['environment']
                 print("I got environment")
             except:
-                print("I cant see environment")
-                responsedata = "environment needs to be defined else program will fail!"
+                print("environment needs to be defined else program will fail!")
+                return exception_handler("environment needs to be defined else program will fail!")
 
             try:
                 responsedata = create_emr_serverless_app(appname, apptype, releaselabel,driver_init_worker_count,driver_init_vcpu,driver_init_memory,driver_init_disk,executor_init_worker_count,executor_init_vcpu,executor_init_memory,executor_init_disk, max_cpu, max_memory, autostart_enabled,autostop_enabled,autostop_idletimeout_in_mins,contact,environment)
@@ -239,7 +207,6 @@ def lambda_handler(event, context):
         requestparams = json.loads(event['body'])
         if bool(requestparams):
             print("requestparams are: {}".format(requestparams))
-            # appname = requestparams['appname']
             appid = requestparams['appid']
             print("Calling delete_emr_serverless_app method!")
             try:
@@ -256,13 +223,27 @@ def lambda_handler(event, context):
         print("Calling emr_serverless_list_apps method!")
         try:
             responsedata = list_emr_serverless_apps()
+            print("vik1")
+            print(responsedata)
+            print("vik2")
+            applications = None
             if not responsedata['applications']:
-                responsedata = "There are no EMR serverless apps!"
-            # raise Exception('This is an exception!')
-            return {
-                'statusCode': 200,
-                'body': json.dumps(responsedata)
-            }
+                print("There are no EMR serverless applications!")
+                applications = "There are no EMR serverless applications!"
+                return exception_handler(applications)
+            else:
+                print("I do see EMR serverless applications!")
+                print(responsedata['applications'])
+                for app in responsedata['applications']:
+                    print(app['name'])
+                    if not applications:
+                        applications = responsedata['applications'][0]['name']
+                    else:
+                        applications = applications + ", " + app['name']
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(applications)
+                }
         except Exception as e:
             return exception_handler(e)
     elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_start_app':
@@ -323,90 +304,96 @@ def lambda_handler(event, context):
         requestparams = json.loads(event['body'])
         if bool(requestparams):
             print("requestparams are: {}".format(requestparams))
-            try:
-                jobrunname = requestparams['jobrunname']
-            except Exception as e:
-                return exception_handler("To start a job, I need jobrunname, which is not passed, I can't proceed further!")
 
             try:
-                appid = requestparams['appid']
+                jobtype = requestparams['jobtype']
             except Exception as e:
-                return exception_handler("To start a job, I need appID, which is not passed, I can't proceed further!")
+                return exception_handler("To start a job, I need jobtype, which is not passed, I can't proceed further!")
 
-            try:
-                rolearn = requestparams['rolearn']
-            except Exception as e:
-                return exception_handler("To start a job, I need rolearn, which is not passed, I can't proceed further!")
+            if str(jobtype).casefold() == "spark":
+                try:
+                    jobrunname = requestparams['jobrunname']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need jobrunname, which is not passed, I can't proceed further!")
 
-            try:
-                entryPoint = requestparams['entryPoint']
-            except Exception as e:
-                return exception_handler("To start a job, I need job entryPoint, which is not passed, I can't proceed further!")
+                try:
+                    appid = requestparams['appid']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need appID, which is not passed, I can't proceed further!")
 
-            try:
-                entryPointArguments = requestparams['entryPointArguments']
-            except Exception as e:
-                return exception_handler("To start a job, I need job entryPointArguments, which is not passed, I can't proceed further!")
+                try:
+                    rolearn = requestparams['rolearn']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need rolearn, which is not passed, I can't proceed further!")
 
-            try:
-                sparkSubmitParameters = requestparams['sparkSubmitParameters']
-            except Exception as e:
-                return exception_handler("To start a job, I need job sparkSubmitParameters, which is not passed, I can't proceed further!")
+                try:
+                    entryPoint = requestparams['entryPoint']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need job entryPoint, which is not passed, I can't proceed further!")
 
-            try:
-                loguri = requestparams['loguri']
-            except Exception as e:
-                return exception_handler("To start a job, I need loguri to store logs, which is not passed, I can't proceed further!")
+                try:
+                    entryPointArguments = requestparams['entryPointArguments']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need job entryPointArguments, which is not passed, I can't proceed further!")
 
-            try:
-                contact = requestparams['contact']
-            except Exception as e:
-                return exception_handler("To start a job, I need job contact for accountability, which is not passed, I can't proceed further!")
+                try:
+                    sparkSubmitParameters = requestparams['sparkSubmitParameters']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need job sparkSubmitParameters, which is not passed, I can't proceed further!")
 
-            try:
-                environment = requestparams['environment']
-            except Exception as e:
-                return exception_handler("To start a job, I need environment to run job, which is not passed, I can't proceed further!")
+                try:
+                    loguri = requestparams['loguri']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need loguri to store logs, which is not passed, I can't proceed further!")
 
-            try:
-                exectimeout = requestparams['exectimeout']
-                print("I got job execution timeout value of {}".format(exectimeout))
-            except:
-                print("I cant see job execution timeout, setting the default value of {}!".format(JOB_EXEC_TIMEOUT_IN_MINS))
-                exectimeout = JOB_EXEC_TIMEOUT_IN_MINS
+                try:
+                    contact = requestparams['contact']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need job contact for accountability, which is not passed, I can't proceed further!")
 
-            print("Calling start_emr_serverless_job_run method!")
-            try:
-                responsedata = start_emr_serverless_job_run(jobrunname, appid, rolearn, entryPoint,entryPointArguments, sparkSubmitParameters,loguri, contact, environment, exectimeout)
-                if not responsedata['jobRunId']:
-                    responsedata = "I failed to run EMR serverless app with appid {}!".format(appid)
-                return {
-                    'statusCode': 200,
-                    'body': json.dumps(responsedata)
-                }
-            except Exception as e:
-                return exception_handler(e)
+                try:
+                    environment = requestparams['environment']
+                except Exception as e:
+                    return exception_handler(
+                        "To start a job, I need environment to run job, which is not passed, I can't proceed further!")
+
+                try:
+                    exectimeout = requestparams['exectimeout']
+                    print("I got job execution timeout value of {}".format(exectimeout))
+                except:
+                    print("I cant see job execution timeout, setting the default value of {}!".format(
+                        JOB_EXEC_TIMEOUT_IN_MINS))
+                    exectimeout = JOB_EXEC_TIMEOUT_IN_MINS
+
+                print("Calling start_emr_serverless_job_run method!")
+                try:
+                    responsedata = start_emr_serverless_job_run(jobrunname, appid, rolearn, entryPoint,
+                                                                entryPointArguments, sparkSubmitParameters, loguri,
+                                                                contact, environment, exectimeout)
+                    if not responsedata['jobRunId']:
+                        responsedata = "I failed to run EMR serverless app with appid {}!".format(appid)
+                    return {
+                        'statusCode': 200,
+                        'body': json.dumps(responsedata)
+                    }
+                except Exception as e:
+                    return exception_handler(e)
+            elif str(jobtype).casefold() == "hive":
+                print("MAJOR ERROR HIVE JOB NOT SUPPORTED YET - Human intervention is needed!")
+                return exception_handler("MAJOR ERROR HIVE JOB NOT SUPPORTED YET - Human intervention is needed!")
+            else:
+                print("MAJOR ERROR Job Type not defined - Human intervention is needed!")
+                return exception_handler("MAJOR ERROR Job Type not defined- Human intervention is needed!")
+
+
     else:
-        print("Something is not right!")
-        responsedata = "Something is not right!"
-
-    # if validateJSON(responsedata) == True:
-    #     print("responsedata is a valid json")
-    #     return {
-    #         "statusCode": 200,
-    #         "headers": {
-    #             "Content-Type": "application/json"
-    #         },
-    #         "body": responsedata
-    #     }
-    # else:
-    #     print("responsedata is not a valid json")
-    #     return {
-    #         "statusCode": 200,
-    #         "headers": {
-    #             "Content-Type": "application/json"
-    #         },
-    #         "body": json.dumps({
-    #             "Response ": responsedata
-    #         })
-    #     }
+        print("MAJOR ERROR - Human intervention is needed!")
+        return exception_handler("MAJOR ERROR - Human intervention is needed!")
