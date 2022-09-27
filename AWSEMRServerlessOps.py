@@ -29,30 +29,31 @@ class AWSEMRServerlessOperations:
         return self.client.stop_application(
             applicationId=appId
         )
-    def emr_serverless_start_spark_job_run(self, appId: str, rolearn: str, entryPoint: str,entryPointArgs: str):
+    def emr_serverless_start_spark_job_run(self, jobrunname: str, appId: str, rolearn: str, entryPoint: str,entryPointArgs: str, sparkSubmitParameters: str,loguri: str, contact: str, environment: str, exectimeout: int):
         sparkSubmitconf = {
-        'entryPoint': 's3://us-east-1.elasticmapreduce/emr-containers/samples/wordcount/scripts/wordcount.py',
-        'entryPointArguments': ["s3://awsglue081222/wordcount_output"],
-        'sparkSubmitParameters': "--conf spark.executor.cores=1 --conf spark.executor.memory=4g --conf spark.driver.cores=1 --conf spark.driver.memory=4g --conf spark.executor.instances=1"
+        'entryPoint': entryPoint,
+        'entryPointArguments': [entryPointArgs],
+        'sparkSubmitParameters': sparkSubmitParameters
         }
         return self.client.start_job_run(
             applicationId=appId,
-            executionRoleArn='arn:aws:iam::272350763384:role/awsemrserverlessops',
+            executionRoleArn=rolearn,
             jobDriver={
                 'sparkSubmit': sparkSubmitconf
             },
             configurationOverrides={
                 'monitoringConfiguration': {
                     "s3MonitoringConfiguration": {
-                        "logUri": "s3://awsglue081222/logs"
+                        "logUri": loguri
                     }
                 }
             },
             tags={
-                'Owner': 'Vikram'
+                'Contact': contact,
+                'Environment': environment
             },
-            executionTimeoutMinutes=15,
-            name='Myname'
+            executionTimeoutMinutes=exectimeout,
+            name=jobrunname
         )
 
     def emr_serverless_get_application_status(self, appId: str):

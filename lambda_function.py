@@ -2,6 +2,7 @@ import boto3, botocore
 import json
 from AWSEMRServerlessOps import AWSEMRServerlessOperations
 
+# CREATE EMR APPLICATION DEFAULTS
 RELEASELABEL = "emr-6.7.0"
 APPTYPES = ['Spark', 'Hive']
 DEFAULT_APPTYPE = "Spark"
@@ -19,6 +20,17 @@ AUTOSTART_ENABLED = True
 AUTOSTOP_ENABLED = True
 AUTOSTOP_IDLETIMEOUT_IN_MINS = 10
 
+# JOB EXECUTION DEFAULTS
+JOB_EXEC_TIMEOUT_IN_MINS = 15
+
+def exception_handler(e):
+    # exception to status code mapping goes here...
+    status_code = 400
+    return {
+        'statusCode': status_code,
+        'body': json.dumps(str(e))
+    }
+
 def validateJSON(jsonData):
     try:
         json.loads(jsonData)
@@ -33,51 +45,51 @@ def env_details():
 
 def delete_emr_serverless_app(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
-    response = AWSEMRSLOps.emr_serverless_delete_application(appId)
-    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        return json.dumps(response)
-    else:
-        return "you are in trouble!"
+    return AWSEMRSLOps.emr_serverless_delete_application(appId)
+    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+    #     return json.dumps(response)
+    # else:
+    #     return "you are in trouble!"
 
 def start_emr_serverless_app(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
-    response = AWSEMRSLOps.emr_serverless_start_application(appId)
-    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        return json.dumps(response)
-    else:
-        return "you are in trouble!"
+    return AWSEMRSLOps.emr_serverless_start_application(appId)
+    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+    #     return json.dumps(response)
+    # else:
+    #     return "you are in trouble!"
 
 def stop_emr_serverless_app(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
-    response = AWSEMRSLOps.emr_serverless_stop_application(appId)
-    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        return json.dumps(response)
-    else:
-        return "you are in trouble!"
+    return AWSEMRSLOps.emr_serverless_stop_application(appId)
+    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+    #     return json.dumps(response)
+    # else:
+    #     return "you are in trouble!"
 
 def get_emr_serverless_app_status(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
-    response = AWSEMRSLOps.emr_serverless_get_application_status(appId)
-    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        return json.dumps(response)
-    else:
-        return "you are in trouble!"
+    return AWSEMRSLOps.emr_serverless_get_application_status(appId)
+    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+    #     return json.dumps(response)
+    # else:
+    #     return "you are in trouble!"
 
-def start_emr_serverless_job_run(appId: str):
+def start_emr_serverless_job_run(jobrunname: str, appId: str, rolearn: str, entryPoint: str,entryPointArgs: str, sparkSubmitParameters: str,loguri: str, contact: str, environment: str, exectimeout: int):
     AWSEMRSLOps = AWSEMRServerlessOperations()
-    response = AWSEMRSLOps.emr_serverless_start_spark_job_run(appId)
-    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        return json.dumps(response)
-    else:
-        return "you are in trouble!"
+    return AWSEMRSLOps.emr_serverless_start_spark_job_run(jobrunname, appId, rolearn, entryPoint,entryPointArgs, sparkSubmitParameters,loguri, contact, environment, exectimeout)
+    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+    #     return json.dumps(response)
+    # else:
+    #     return "you are in trouble!"
 
 def create_emr_serverless_app(appname: str, apptype: str, releaselabel: str, driver_init_worker_count: int, driver_init_vcpu: str, driver_init_memory: str, driver_init_disk: str, executor_init_worker_count: int, executor_init_vcpu: str, executor_init_memory:str, executor_init_disk:str, max_cpu:str, max_memory:str, autostart_enabled: bool, autostop_enabled: bool, autostop_idletimeout_in_mins: int, contact: str, environment: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
-    response = AWSEMRSLOps.emr_serverless_create_application(appname, apptype, releaselabel, driver_init_worker_count, driver_init_vcpu, driver_init_memory, driver_init_disk, executor_init_worker_count, executor_init_vcpu, executor_init_memory, executor_init_disk, max_cpu, max_memory, eval(autostart_enabled), eval(autostop_enabled), autostop_idletimeout_in_mins, contact, environment)
-    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        return json.dumps(response)
-    else:
-        return "you are in trouble!"
+    return AWSEMRSLOps.emr_serverless_create_application(appname, apptype, releaselabel, driver_init_worker_count, driver_init_vcpu, driver_init_memory, driver_init_disk, executor_init_worker_count, executor_init_vcpu, executor_init_memory, executor_init_disk, max_cpu, max_memory, eval(autostart_enabled), eval(autostop_enabled), autostop_idletimeout_in_mins, contact, environment)
+    # if response['ResponseMetadata']['HTTPStatusCode'] == 200:
+    #     return json.dumps(response)
+    # else:
+    #     return "you are in trouble!"
 
 def list_emr_serverless_apps():
     AWSEMRSLOps = AWSEMRServerlessOperations()
@@ -213,8 +225,16 @@ def lambda_handler(event, context):
                 print("I cant see environment")
                 responsedata = "environment needs to be defined else program will fail!"
 
-            # responsedata = create_emr_serverless_app(appname, apptype, releaselabel,drive_init_worker_count,drive_init_vcpu,drive_init_memory,drive_init_disk)
-            responsedata = create_emr_serverless_app(appname, apptype, releaselabel,driver_init_worker_count,driver_init_vcpu,driver_init_memory,driver_init_disk,executor_init_worker_count,executor_init_vcpu,executor_init_memory,executor_init_disk, max_cpu, max_memory, autostart_enabled,autostop_enabled,autostop_idletimeout_in_mins,contact,environment)
+            try:
+                responsedata = create_emr_serverless_app(appname, apptype, releaselabel,driver_init_worker_count,driver_init_vcpu,driver_init_memory,driver_init_disk,executor_init_worker_count,executor_init_vcpu,executor_init_memory,executor_init_disk, max_cpu, max_memory, autostart_enabled,autostop_enabled,autostop_idletimeout_in_mins,contact,environment)
+                if not responsedata['applicationId']:
+                    responsedata = "I am unable to create an EMR serverless application!"
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
     elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_delete_app':
         requestparams = json.loads(event['body'])
         if bool(requestparams):
@@ -222,59 +242,171 @@ def lambda_handler(event, context):
             # appname = requestparams['appname']
             appid = requestparams['appid']
             print("Calling delete_emr_serverless_app method!")
-            responsedata = delete_emr_serverless_app(appid)
+            try:
+                responsedata = delete_emr_serverless_app(appid)
+                if not responsedata:
+                    responsedata = "I failed to delete EMR serverless app with appid {}!".format(appid)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
     elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_list_apps':
         print("Calling emr_serverless_list_apps method!")
-        responsedata = list_emr_serverless_apps()
+        try:
+            responsedata = list_emr_serverless_apps()
+            if not responsedata['applications']:
+                responsedata = "There are no EMR serverless apps!"
+            # raise Exception('This is an exception!')
+            return {
+                'statusCode': 200,
+                'body': json.dumps(responsedata)
+            }
+        except Exception as e:
+            return exception_handler(e)
     elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_start_app':
         requestparams = json.loads(event['body'])
         if bool(requestparams):
             print("requestparams are: {}".format(requestparams))
-            appid = requestparams['appid']
+            try:
+                appid = requestparams['appid']
+            except Exception as e:
+                return exception_handler(e)
+
             print("Calling start_emr_serverless_apps method!")
-            responsedata = start_emr_serverless_app(appid)
+            try:
+                responsedata = start_emr_serverless_app(appid)
+                if not responsedata:
+                    responsedata = "I failed to start EMR serverless app with appid {}!".format(appid)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
     elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_stop_app':
         requestparams = json.loads(event['body'])
         if bool(requestparams):
             print("requestparams are: {}".format(requestparams))
             appid = requestparams['appid']
             print("Calling stop_emr_serverless_app method!")
-            responsedata = stop_emr_serverless_app(appid)
+            try:
+                responsedata = stop_emr_serverless_app(appid)
+                if not responsedata:
+                    responsedata = "I failed to stop EMR serverless app with appid {}!".format(appid)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
     elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_get_app_status':
         requestparams = json.loads(event['body'])
         if bool(requestparams):
             print("requestparams are: {}".format(requestparams))
             appid = requestparams['appid']
             print("Calling get_emr_serverless_app_status method!")
-            responsedata = get_emr_serverless_app_status(appid)
+            try:
+                responsedata = get_emr_serverless_app_status(appid)
+                if not responsedata['application']['applicationId']:
+                    responsedata = "I failed to get EMR serverless app status with appid {}!".format(appid)
+                else:
+                    responsedata = "EMR serverless app status with appid {} is {}".format(appid, responsedata['application']['state'])
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
     elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_start_job_run':
         requestparams = json.loads(event['body'])
         if bool(requestparams):
             print("requestparams are: {}".format(requestparams))
-            appid = requestparams['appid']
+            try:
+                jobrunname = requestparams['jobrunname']
+            except Exception as e:
+                return exception_handler("To start a job, I need jobrunname, which is not passed, I can't proceed further!")
+
+            try:
+                appid = requestparams['appid']
+            except Exception as e:
+                return exception_handler("To start a job, I need appID, which is not passed, I can't proceed further!")
+
+            try:
+                rolearn = requestparams['rolearn']
+            except Exception as e:
+                return exception_handler("To start a job, I need rolearn, which is not passed, I can't proceed further!")
+
+            try:
+                entryPoint = requestparams['entryPoint']
+            except Exception as e:
+                return exception_handler("To start a job, I need job entryPoint, which is not passed, I can't proceed further!")
+
+            try:
+                entryPointArguments = requestparams['entryPointArguments']
+            except Exception as e:
+                return exception_handler("To start a job, I need job entryPointArguments, which is not passed, I can't proceed further!")
+
+            try:
+                sparkSubmitParameters = requestparams['sparkSubmitParameters']
+            except Exception as e:
+                return exception_handler("To start a job, I need job sparkSubmitParameters, which is not passed, I can't proceed further!")
+
+            try:
+                loguri = requestparams['loguri']
+            except Exception as e:
+                return exception_handler("To start a job, I need loguri to store logs, which is not passed, I can't proceed further!")
+
+            try:
+                contact = requestparams['contact']
+            except Exception as e:
+                return exception_handler("To start a job, I need job contact for accountability, which is not passed, I can't proceed further!")
+
+            try:
+                environment = requestparams['environment']
+            except Exception as e:
+                return exception_handler("To start a job, I need environment to run job, which is not passed, I can't proceed further!")
+
+            try:
+                exectimeout = requestparams['exectimeout']
+                print("I got job execution timeout value of {}".format(exectimeout))
+            except:
+                print("I cant see job execution timeout, setting the default value of {}!".format(JOB_EXEC_TIMEOUT_IN_MINS))
+                exectimeout = JOB_EXEC_TIMEOUT_IN_MINS
+
             print("Calling start_emr_serverless_job_run method!")
-            responsedata = start_emr_serverless_job_run(appid)
+            try:
+                responsedata = start_emr_serverless_job_run(jobrunname, appid, rolearn, entryPoint,entryPointArguments, sparkSubmitParameters,loguri, contact, environment, exectimeout)
+                if not responsedata['jobRunId']:
+                    responsedata = "I failed to run EMR serverless app with appid {}!".format(appid)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
     else:
         print("Something is not right!")
         responsedata = "Something is not right!"
 
-    if validateJSON(responsedata) == True:
-        print("responsedata is a valid json")
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": responsedata
-        }
-    else:
-        print("responsedata is not a valid json")
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": json.dumps({
-                "Response ": responsedata
-            })
-        }
+    # if validateJSON(responsedata) == True:
+    #     print("responsedata is a valid json")
+    #     return {
+    #         "statusCode": 200,
+    #         "headers": {
+    #             "Content-Type": "application/json"
+    #         },
+    #         "body": responsedata
+    #     }
+    # else:
+    #     print("responsedata is not a valid json")
+    #     return {
+    #         "statusCode": 200,
+    #         "headers": {
+    #             "Content-Type": "application/json"
+    #         },
+    #         "body": json.dumps({
+    #             "Response ": responsedata
+    #         })
+    #     }
