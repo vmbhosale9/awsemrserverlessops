@@ -1,0 +1,18 @@
+{
+    "appid": "00f4h0hiljnrsv09",
+    "driver_init_worker_count": 1,
+    "driver_init_vcpu": "2vCPU",
+    "driver_init_memory": "4GB",
+    "driver_init_disk": "20GB",
+    "executor_init_worker_count": 2,
+    "executor_init_vcpu": "4vCPU",
+    "executor_init_memory": "8GB",
+    "executor_init_disk": "40GB",    
+    "max_cpu": "400vCPU",
+    "max_memory": "1024GB",
+    "autostart_enabled": "True",
+    "autostop_enabled": "True",
+    "autostop_idletimeout_in_mins": 15
+} 
+
+"EMR serverless application ID# 00f4h0hiljnrsv09 has been successfully updated!"
