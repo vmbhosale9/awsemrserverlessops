@@ -1,5 +1,7 @@
+http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_start_app
+
 {
-    "appid": "00f4c1cpbnpbgr09"
+    "appid": "00f4h0hiljnrsv09"
 }
 
-{"ResponseMetadata": {"RequestId": "a7962c4e-8402-49df-9a34-8b698334f9e1", "HTTPStatusCode": 200, "HTTPHeaders": {"date": "Tue, 27 Sep 2022 20:43:58 GMT", "content-type": "application/json", "content-length": "2", "connection": "keep-alive", "x-amzn-requestid": "a7962c4e-8402-49df-9a34-8b698334f9e1", "x-amzn-remapped-x-amzn-requestid": "ZIwGVGnBoAMF70A=", "x-amzn-remapped-content-length": "2", "x-amz-apigw-id": "ZIwGVGnBoAMF70A=", "x-amzn-trace-id": "Root=1-6333608e-4268f07712ccbb9424894a06", "x-amzn-remapped-date": "Tue, 27 Sep 2022 20:43:58 GMT"}, "RetryAttempts": 0}}
+{"ResponseMetadata": {"RequestId": "d21676a9-6100-435e-a261-0fe1c573bb09", "HTTPStatusCode": 200, "HTTPHeaders": {"date": "Mon, 03 Oct 2022 23:41:57 GMT", "content-type": "application/json", "content-length": "2", "connection": "keep-alive", "x-amzn-requestid": "d21676a9-6100-435e-a261-0fe1c573bb09", "x-amzn-remapped-x-amzn-requestid": "Zc7y6E2goAMFyOA=", "x-amzn-remapped-content-length": "2", "x-amz-apigw-id": "Zc7y6E2goAMFyOA=", "x-amzn-trace-id": "Root=1-633b7344-5185500741f07a20524b3dcb", "x-amzn-remapped-date": "Mon, 03 Oct 2022 23:41:57 GMT"}, "RetryAttempts": 0}}
