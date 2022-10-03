@@ -1,3 +1,5 @@
+http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_update_app
+
 {
     "appid": "00f4h0hiljnrsv09",
     "driver_init_worker_count": 1,
