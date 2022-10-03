@@ -60,6 +60,11 @@ def create_emr_serverless_app(appname: str, apptype: str, releaselabel: str, dri
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_create_application(appname, apptype, releaselabel, driver_init_worker_count, driver_init_vcpu, driver_init_memory, driver_init_disk, executor_init_worker_count, executor_init_vcpu, executor_init_memory, executor_init_disk, max_cpu, max_memory, eval(autostart_enabled), eval(autostop_enabled), autostop_idletimeout_in_mins, contact, environment)
 
+def update_emr_serverless_app(appid: str, driver_init_worker_count: int, driver_init_vcpu: str, driver_init_memory: str, driver_init_disk: str, executor_init_worker_count: int, executor_init_vcpu: str, executor_init_memory:str, executor_init_disk:str, max_cpu:str, max_memory:str, autostart_enabled: bool, autostop_enabled: bool, autostop_idletimeout_in_mins: int):
+    AWSEMRSLOps = AWSEMRServerlessOperations()
+    return AWSEMRSLOps.emr_serverless_update_application(appid, driver_init_worker_count, driver_init_vcpu, driver_init_memory, driver_init_disk, executor_init_worker_count, executor_init_vcpu, executor_init_memory, executor_init_disk, max_cpu, max_memory, eval(autostart_enabled), eval(autostop_enabled), autostop_idletimeout_in_mins)
+
+
 def list_emr_serverless_apps():
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_list_applications()
@@ -203,6 +208,113 @@ def lambda_handler(event, context):
                 }
             except Exception as e:
                 return exception_handler(e)
+    elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_update_app':
+        print("Calling emr_serverless_update_app method!")
+        requestparams = json.loads(event['body'])
+        if bool(requestparams):
+            print("requestparams are: {}".format(requestparams))
+            appid = requestparams['appid']
+
+            try:
+                driver_init_worker_count = requestparams['driver_init_worker_count']
+                print("I got driver_init_worker_count")
+            except:
+                print("I cant see driver_init_worker_count, setting the default value of {}!".format(DRIVER_INIT_WORKER_COUNT))
+                driver_init_worker_count = DRIVER_INIT_WORKER_COUNT
+
+            try:
+                driver_init_vcpu = requestparams['driver_init_vcpu']
+                print("I got driver_init_vcpu")
+            except:
+                print("I cant see driver_init_vcpu, setting the default value of {}!".format(DRIVER_INIT_VCPU))
+                driver_init_vcpu = DRIVER_INIT_VCPU
+
+            try:
+                driver_init_memory = requestparams['driver_init_memory']
+                print("I got driver_init_memory")
+            except:
+                print("I cant see driver_init_memory, setting the default value of {}!".format(DRIVER_INIT_MEMORY))
+                driver_init_memory = DRIVER_INIT_MEMORY
+
+            try:
+                driver_init_disk = requestparams['driver_init_disk']
+                print("I got driver_init_disk")
+            except:
+                print("I cant see driver_init_disk, setting the default value of {}!".format(DRIVER_INIT_DISK))
+                driver_init_disk = DRIVER_INIT_DISK
+
+            try:
+                executor_init_worker_count = requestparams['executor_init_worker_count']
+                print("I got executor_init_worker_count")
+            except:
+                print("I cant see executor_init_worker_count, setting the default value of {}!".format(EXECUTOR_INIT_WORKER_COUNT))
+                executor_init_worker_count = EXECUTOR_INIT_WORKER_COUNT
+
+            try:
+                executor_init_vcpu = requestparams['executor_init_vcpu']
+                print("I got executor_init_vcpu")
+            except:
+                print("I cant see executor_init_vcpu, setting the default value of {}!".format(EXECUTOR_INIT_VCPU))
+                executor_init_vcpu = EXECUTOR_INIT_VCPU
+
+            try:
+                executor_init_memory = requestparams['executor_init_memory']
+                print("I got executor_init_memory")
+            except:
+                print("I cant see executor_init_memory, setting the default value of {}!".format(EXECUTOR_INIT_MEMORY))
+                executor_init_memory = EXECUTOR_INIT_MEMORY
+
+            try:
+                executor_init_disk = requestparams['executor_init_disk']
+                print("I got executor_init_disk")
+            except:
+                print("I cant see executor_init_disk, setting the default value of {}!".format(EXECUTOR_INIT_DISK))
+                executor_init_disk = EXECUTOR_INIT_DISK
+
+            try:
+                max_cpu = requestparams['max_cpu']
+                print("I got max_cpu")
+            except:
+                print("I cant see max_cpu, setting the default value of {}!".format(MAX_CPU))
+                max_cpu = MAX_CPU
+
+            try:
+                max_memory = requestparams['max_memory']
+                print("I got max_memory")
+            except:
+                print("I cant see max_memory, setting the default value of {}!".format(MAX_MEMORY))
+                max_memory = MAX_MEMORY
+
+            try:
+                autostart_enabled = requestparams['autostart_enabled']
+                print("I got autostart_enabled with value of {}".format(autostart_enabled))
+            except:
+                print("I cant see autostart_enabled, setting the default value of {}!".format(AUTOSTART_ENABLED))
+                autostart_enabled = AUTOSTART_ENABLED
+
+            try:
+                autostop_enabled = requestparams['autostop_enabled']
+                print("I got autostop_enabled with value of {}".format(autostop_enabled))
+                try:
+                    autostop_idletimeout_in_mins = requestparams['autostop_idletimeout_in_mins']
+                except:
+                    print("I cant see autostop_idletimeout_in_mins, setting the default value of {}!".format(AUTOSTOP_IDLETIMEOUT_IN_MINS))
+                    autostop_idletimeout_in_mins = AUTOSTOP_IDLETIMEOUT_IN_MINS
+            except:
+                print("I cant see autostop_enabled, setting the default value of {}!".format(AUTOSTOP_ENABLED))
+                autostop_enabled = AUTOSTOP_ENABLED
+                autostop_idletimeout_in_mins = AUTOSTOP_IDLETIMEOUT_IN_MINS
+
+            try:
+                responsedata = update_emr_serverless_app(appid, driver_init_worker_count, driver_init_vcpu, driver_init_memory, driver_init_disk, executor_init_worker_count, executor_init_vcpu, executor_init_memory, executor_init_disk, max_cpu, max_memory, autostart_enabled,autostop_enabled,autostop_idletimeout_in_mins)
+                if not responsedata['application'][0]['applicationId']:
+                    responsedata = "I am unable to update an EMR serverless application!"
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
     elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_delete_app':
         requestparams = json.loads(event['body'])
         if bool(requestparams):
@@ -223,9 +335,6 @@ def lambda_handler(event, context):
         print("Calling emr_serverless_list_apps method!")
         try:
             responsedata = list_emr_serverless_apps()
-            print("vik1")
-            print(responsedata)
-            print("vik2")
             applications = None
             if not responsedata['applications']:
                 print("There are no EMR serverless applications!")

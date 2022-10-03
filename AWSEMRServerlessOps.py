@@ -66,6 +66,43 @@ class AWSEMRServerlessOperations:
             applicationId=appId
         )
 
+
+    # update_application does not care about networkConfiguration in this version
+    def emr_serverless_update_application(self, appid: str, driver_init_worker_count: int, driver_init_vcpu: str, driver_init_memory: str, driver_init_disk: str, executor_init_worker_count: int, executor_init_vcpu: str, executor_init_memory:str, executor_init_disk: str, max_cpu: str, max_memory: str, autostart_enabled: bool, autostop_enabled: bool, autostop_idletimeout_in_mins:int):
+        print("Update application function called...")
+        return self.client.update_application(
+            applicationId=appid,
+            initialCapacity={
+                'DRIVER': {
+                    'workerCount': driver_init_worker_count,
+                    'workerConfiguration': {
+                        'cpu': driver_init_vcpu,
+                        'memory': driver_init_memory,
+                        'disk': driver_init_disk
+                    }
+                },
+                'EXECUTOR': {
+                    'workerCount': executor_init_worker_count,
+                    'workerConfiguration': {
+                        'cpu': executor_init_vcpu,
+                        'memory': executor_init_memory,
+                        'disk': executor_init_disk
+                    }
+                }
+            },
+            maximumCapacity={
+                'cpu': max_cpu,
+                'memory': max_memory
+            },
+            autoStartConfiguration={
+                'enabled': autostart_enabled
+            },
+            autoStopConfiguration={
+                'enabled': autostop_enabled,
+                'idleTimeoutMinutes': autostop_idletimeout_in_mins
+            }
+        )
+
     def emr_serverless_create_application(self, appname: str, apptype: str, releaselabel: str, driver_init_worker_count: int, driver_init_vcpu: str, driver_init_memory: str, driver_init_disk: str, executor_init_worker_count: int, executor_init_vcpu: str, executor_init_memory:str, executor_init_disk: str, max_cpu: str, max_memory: str, autostart_enabled: bool, autostop_enabled: bool, autostop_idletimeout_in_mins:int, contact: str, environment: str):
         print("Create application function called...")
         return self.client.create_application(
