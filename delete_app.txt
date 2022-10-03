@@ -1,0 +1,5 @@
+{
+    "appid": "00f4bvt9fd42gd09"
+}
+
+{"ResponseMetadata": {"RequestId": "4ae269ca-89b3-4997-bb05-63fd4e27ee63", "HTTPStatusCode": 200, "HTTPHeaders": {"date": "Tue, 27 Sep 2022 17:26:00 GMT", "content-type": "application/json", "content-length": "2", "connection": "keep-alive", "x-amzn-requestid": "4ae269ca-89b3-4997-bb05-63fd4e27ee63", "x-amzn-remapped-x-amzn-requestid": "ZITGRG8toAMFi-Q=", "x-amzn-remapped-content-length": "2", "x-amz-apigw-id": "ZITGRG8toAMFi-Q=", "x-amzn-trace-id": "Root=1-63333227-235a3db46099eb5208b27496", "x-amzn-remapped-date": "Tue, 27 Sep 2022 17:26:00 GMT"}, "RetryAttempts": 0}}
