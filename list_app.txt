@@ -1,0 +1,3 @@
+http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_list_apps
+
+"myemrsapp1"
