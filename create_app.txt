@@ -1,0 +1,22 @@
+{
+    "appname": "myemrsapp1",
+    "apptype": "Spark",
+    "releaselabel": "emr-6.7.0",
+    "drive_init_worker_count": 1,
+    "drive_init_vcpu": "2vCPU",
+    "drive_init_memory": "4GB",
+    "drive_init_disk": "20GB",
+    "executor_init_worker_count": 2,
+    "executor_init_vcpu": "4vCPU",
+    "executor_init_memory": "8GB",
+    "executor_init_disk": "40GB",    
+    "max_cpu": "400vCPU",
+    "max_memory": "1024GB",
+    "autostart_enabled": "True",
+    "autostop_enabled": "True",
+    "autostop_idletimeout_in_mins": 20,
+    "contact": "vikram914",
+    "environment": "Testing"
+}
+
+{"ResponseMetadata": {"RequestId": "6f1f283f-57a4-4850-8e98-3bd890f064c8", "HTTPStatusCode": 200, "HTTPHeaders": {"date": "Tue, 27 Sep 2022 21:03:53 GMT", "content-type": "application/json", "content-length": "141", "connection": "keep-alive", "x-amzn-requestid": "6f1f283f-57a4-4850-8e98-3bd890f064c8", "x-amzn-remapped-x-amzn-requestid": "ZIzA9H3UIAMFvNQ=", "x-amzn-remapped-content-length": "141", "x-amz-apigw-id": "ZIzA9H3UIAMFvNQ=", "x-amzn-trace-id": "Root=1-63336538-5323da1d6c30b910039bf8f4", "x-amzn-remapped-date": "Tue, 27 Sep 2022 21:03:53 GMT"}, "RetryAttempts": 0}, "applicationId": "00f4c3q42rjfrb09", "name": "myemrsapp1", "arn": "arn:aws:emr-serverless:us-east-1:272350763384:/applications/00f4c3q42rjfrb09"}
