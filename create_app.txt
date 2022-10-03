@@ -2,14 +2,14 @@
     "appname": "myemrsapp1",
     "apptype": "Spark",
     "releaselabel": "emr-6.7.0",
-    "drive_init_worker_count": 1,
-    "drive_init_vcpu": "2vCPU",
-    "drive_init_memory": "4GB",
-    "drive_init_disk": "20GB",
+    "driver_init_worker_count": 1,
+    "driver_init_vcpu": "2vCPU",
+    "driver_init_memory": "4GB",
+    "driver_init_disk": "40GB",
     "executor_init_worker_count": 2,
     "executor_init_vcpu": "4vCPU",
     "executor_init_memory": "8GB",
-    "executor_init_disk": "40GB",    
+    "executor_init_disk": "80GB",    
     "max_cpu": "400vCPU",
     "max_memory": "1024GB",
     "autostart_enabled": "True",
@@ -19,4 +19,4 @@
     "environment": "Testing"
 }
 
-{"ResponseMetadata": {"RequestId": "ac9812c8-fd13-4728-b89a-46c13d1b008a", "HTTPStatusCode": 200, "HTTPHeaders": {"date": "Mon, 03 Oct 2022 18:29:51 GMT", "content-type": "application/json", "content-length": "141", "connection": "keep-alive", "x-amzn-requestid": "ac9812c8-fd13-4728-b89a-46c13d1b008a", "x-amzn-remapped-x-amzn-requestid": "ZcOE4HbqIAMFxjw=", "x-amzn-remapped-content-length": "141", "x-amz-apigw-id": "ZcOE4HbqIAMFxjw=", "x-amzn-trace-id": "Root=1-633b2a1e-7de1857b3baafc11386764ce", "x-amzn-remapped-date": "Mon, 03 Oct 2022 18:29:51 GMT"}, "RetryAttempts": 0}, "applicationId": "00f4grhqnkc82k09", "name": "myemrsapp1", "arn": "arn:aws:emr-serverless:us-east-1:272350763384:/applications/00f4grhqnkc82k09"}
+{"ResponseMetadata": {"RequestId": "80b71be7-31ac-4c52-9b2a-261b2599b7af", "HTTPStatusCode": 200, "HTTPHeaders": {"date": "Mon, 03 Oct 2022 23:09:02 GMT", "content-type": "application/json", "content-length": "141", "connection": "keep-alive", "x-amzn-requestid": "80b71be7-31ac-4c52-9b2a-261b2599b7af", "x-amzn-remapped-x-amzn-requestid": "Zc2-MGbzIAMFReQ=", "x-amzn-remapped-content-length": "141", "x-amz-apigw-id": "Zc2-MGbzIAMFReQ=", "x-amzn-trace-id": "Root=1-633b6b8d-389d5ec377e79ae16f99a6f8", "x-amzn-remapped-date": "Mon, 03 Oct 2022 23:09:02 GMT"}, "RetryAttempts": 0}, "applicationId": "00f4h0hiljnrsv09", "name": "myemrsapp1", "arn": "arn:aws:emr-serverless:us-east-1:272350763384:/applications/00f4h0hiljnrsv09"}
