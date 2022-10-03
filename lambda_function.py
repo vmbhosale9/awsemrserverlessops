@@ -307,8 +307,10 @@ def lambda_handler(event, context):
 
             try:
                 responsedata = update_emr_serverless_app(appid, driver_init_worker_count, driver_init_vcpu, driver_init_memory, driver_init_disk, executor_init_worker_count, executor_init_vcpu, executor_init_memory, executor_init_disk, max_cpu, max_memory, autostart_enabled,autostop_enabled,autostop_idletimeout_in_mins)
-                if not responsedata['application'][0]['applicationId']:
-                    responsedata = "I am unable to update an EMR serverless application!"
+                if responsedata['ResponseMetadata']['HTTPStatusCode'] == 200:
+                    responsedata = "EMR serverless application ID# {} has been successfully updated!".format(appid)
+                else:
+                    responsedata = "EMR serverless application ID# {} failed to update!".format(appid)
                 return {
                     'statusCode': 200,
                     'body': json.dumps(responsedata)
