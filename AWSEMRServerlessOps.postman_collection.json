@@ -211,7 +211,7 @@
 			"response": []
 		},
 		{
-			"name": "AWS EMR Serverless Get Dashboard URI",
+			"name": "AWS EMR Serverless Get Dashboard URL",
 			"request": {
 				"method": "POST",
 				"header": [],
