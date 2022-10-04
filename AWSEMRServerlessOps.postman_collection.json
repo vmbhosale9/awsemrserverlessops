@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "86aa9ab6-8893-4d9b-9d24-4877da01fab9",
+		"name": "AWSEMRServerlessOps",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22839177"
+	},
+	"item": [
+		{
+			"name": "AWS EMR Serverless List Apps",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_list_apps",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_list_apps"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Create App",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appname\": \"myemrsapp1\",\n    \"apptype\": \"Spark\",\n    \"releaselabel\": \"emr-6.7.0\",\n    \"driver_init_worker_count\": 1,\n    \"driver_init_vcpu\": \"2vCPU\",\n    \"driver_init_memory\": \"4GB\",\n    \"driver_init_disk\": \"40GB\",\n    \"executor_init_worker_count\": 2,\n    \"executor_init_vcpu\": \"4vCPU\",\n    \"executor_init_memory\": \"8GB\",\n    \"executor_init_disk\": \"80GB\",    \n    \"max_cpu\": \"400vCPU\",\n    \"max_memory\": \"1024GB\",\n    \"autostart_enabled\": \"True\",\n    \"autostop_enabled\": \"True\",\n    \"autostop_idletimeout_in_mins\": 20,\n    \"contact\": \"vikram914\",\n    \"environment\": \"Testing\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_create_app",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_create_app"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Update App",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appid\": \"00f4h0hiljnrsv09\",\n    \"driver_init_worker_count\": 1,\n    \"driver_init_vcpu\": \"2vCPU\",\n    \"driver_init_memory\": \"4GB\",\n    \"driver_init_disk\": \"20GB\",\n    \"executor_init_worker_count\": 2,\n    \"executor_init_vcpu\": \"4vCPU\",\n    \"executor_init_memory\": \"8GB\",\n    \"executor_init_disk\": \"40GB\",    \n    \"max_cpu\": \"400vCPU\",\n    \"max_memory\": \"1024GB\",\n    \"autostart_enabled\": \"True\",\n    \"autostop_enabled\": \"True\",\n    \"autostop_idletimeout_in_mins\": 15\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_update_app",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_update_app"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Delete App",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appid\": \"00f4bvt9fd42gd09\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_delete_app",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_delete_app"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Start App",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appid\": \"00f4h0hiljnrsv09\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_start_app",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_start_app"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Get App Status",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appid\": \"00f4h0hiljnrsv09\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_get_app_status",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_get_app_status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Get Job Run",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appid\": \"00f4h0hiljnrsv09\",\n    \"jobrunid\": \"00f4h36h6tjshu09\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_get_job_run",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_get_job_run"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Cancel Job Run",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appid\": \"00f4h0hiljnrsv09\",\n    \"jobrunid\": \"00f4h33j11qgsb09\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_cancel_job_run",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_cancel_job_run"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Get Dashboard URI",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appid\": \"00f4h0hiljnrsv09\",\n    \"jobrunid\": \"00f4h36h6tjshu09\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_get_dashboard_for_job_run",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_get_dashboard_for_job_run"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Start Job Run",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"jobtype\": \"spark\",\n    \"jobrunname\": \"WordCountEMRServerlessJob\",\n    \"appid\": \"00f4h0hiljnrsv09\",\n    \"rolearn\": \"arn:aws:iam::272350763384:role/awsemrserverlessops\",\n    \"entryPoint\": \"s3://us-east-1.elasticmapreduce/emr-containers/samples/wordcount/scripts/wordcount.py\",\n    \"entryPointArguments\": \"s3://awsglue081222/wordcount_output\",\n    \"sparkSubmitParameters\": \"--conf spark.executor.cores=1 --conf spark.executor.memory=4g --conf spark.driver.cores=1 --conf spark.driver.memory=4g --conf spark.executor.instances=1\",\n    \"loguri\": \"s3://awsglue081222/logs\",\n    \"contact\": \"Vikram\",\n    \"environment\": \"Testing\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_start_job_run",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_start_job_run"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AWS EMR Serverless Stop App",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"appid\": \"00f4h0hiljnrsv09\"\n}"
+				},
+				"url": {
+					"raw": "http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_stop_app",
+					"protocol": "http",
+					"host": [
+						"lambdaalb-1528104618",
+						"us-east-1",
+						"elb",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"emr_serverless_stop_app"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
