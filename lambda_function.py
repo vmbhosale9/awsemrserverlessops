@@ -52,6 +52,18 @@ def get_emr_serverless_app_status(appId: str):
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_get_application_status(appId)
 
+def emr_serverless_get_job_run(appId: str, jobrunId: str):
+    AWSEMRSLOps = AWSEMRServerlessOperations()
+    return AWSEMRSLOps.emr_serverless_get_job_run(appId, jobrunId)
+
+def emr_serverless_get_dashboard_for_job_run(appId: str, jobrunId: str):
+    AWSEMRSLOps = AWSEMRServerlessOperations()
+    return AWSEMRSLOps.emr_serverless_get_dashboard_for_job_run(appId, jobrunId)
+
+def emr_serverless_cancel_job_run(appId: str, jobrunId: str):
+    AWSEMRSLOps = AWSEMRServerlessOperations()
+    return AWSEMRSLOps.emr_serverless_cancel_job_run(appId, jobrunId)
+
 def start_emr_serverless_job_run(jobrunname: str, appId: str, rolearn: str, entryPoint: str,entryPointArgs: str, sparkSubmitParameters: str,loguri: str, contact: str, environment: str, exectimeout: int):
     AWSEMRSLOps = AWSEMRServerlessOperations()
     return AWSEMRSLOps.emr_serverless_start_spark_job_run(jobrunname, appId, rolearn, entryPoint,entryPointArgs, sparkSubmitParameters,loguri, contact, environment, exectimeout)
@@ -503,8 +515,81 @@ def lambda_handler(event, context):
             else:
                 print("MAJOR ERROR Job Type not defined - Human intervention is needed!")
                 return exception_handler("MAJOR ERROR Job Type not defined- Human intervention is needed!")
+    elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_cancel_job_run':
+        requestparams = json.loads(event['body'])
+        if bool(requestparams):
+            print("requestparams are: {}".format(requestparams))
+            try:
+                appid = requestparams['appid']
+            except Exception as e:
+                return exception_handler(e)
 
+            try:
+                jobrunid = requestparams['jobrunid']
+            except Exception as e:
+                return exception_handler(e)
 
+            print("Calling emr_serverless_cancel_job_run method!")
+            try:
+                responsedata = emr_serverless_cancel_job_run(appid, jobrunid)
+                if not responsedata:
+                    responsedata = "I failed to cancel EMR serverless job run with appid {} & jobrunid {} !".format(appid, jobrunid)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
+    elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_get_dashboard_for_job_run':
+        requestparams = json.loads(event['body'])
+        if bool(requestparams):
+            print("requestparams are: {}".format(requestparams))
+            try:
+                appid = requestparams['appid']
+            except Exception as e:
+                return exception_handler(e)
+
+            try:
+                jobrunid = requestparams['jobrunid']
+            except Exception as e:
+                return exception_handler(e)
+
+            print("Calling emr_serverless_get_dashboard_for_job_run method!")
+            try:
+                responsedata = emr_serverless_get_dashboard_for_job_run(appid, jobrunid)
+                if not responsedata:
+                    responsedata = "I failed to get dashboard uri for EMR serverless job with appid {} & jobrunid {} !".format(appid, jobrunid)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
+    elif event['httpMethod'] == 'POST' and event['path'] == '/emr_serverless_get_job_run':
+        requestparams = json.loads(event['body'])
+        if bool(requestparams):
+            print("requestparams are: {}".format(requestparams))
+            try:
+                appid = requestparams['appid']
+            except Exception as e:
+                return exception_handler(e)
+
+            try:
+                jobrunid = requestparams['jobrunid']
+            except Exception as e:
+                return exception_handler(e)
+
+            print("Calling emr_serverless_get_job_run method!")
+            try:
+                responsedata = emr_serverless_get_job_run(appid, jobrunid)
+                if not responsedata:
+                    responsedata = "I failed to get job run status for EMR serverless job with appid {} & jobrunid {} !".format(appid, jobrunid)
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps(responsedata)
+                }
+            except Exception as e:
+                return exception_handler(e)
     else:
         print("MAJOR ERROR - Human intervention is needed!")
         return exception_handler("MAJOR ERROR - Human intervention is needed!")

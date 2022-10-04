@@ -25,6 +25,22 @@ class AWSEMRServerlessOperations:
             applicationId=appId
         )
 
+    def emr_serverless_cancel_job_run(self, appId: str, jobId: str):
+        return self.client.cancel_job_run(
+            applicationId=appId,
+            jobRunId=jobId
+        )
+
+    def emr_serverless_get_job_run(self, appId: str, jobId: str):
+        return self.client.get_job_run(
+            applicationId=appId,
+            jobRunId=jobId
+        )
+    def emr_serverless_get_dashboard_for_job_run(self, appId: str, jobId: str):
+        return self.client.get_dashboard_for_job_run(
+            applicationId=appId,
+            jobRunId=jobId
+        )
     def emr_serverless_stop_application(self, appId: str):
         return self.client.stop_application(
             applicationId=appId
