@@ -1,0 +1,64 @@
+http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_get_job_run
+
+{
+    "appid": "00f4h0hiljnrsv09",
+    "jobrunid": "00f4h28okslm1g09"
+}
+
+{
+    "ResponseMetadata": {
+        "HTTPHeaders": {
+            "connection": "keep-alive",
+            "content-length": "1630",
+            "content-type": "application/json",
+            "date": "Tue, 04 Oct 2022 01:27:54 GMT",
+            "x-amz-apigw-id": "ZdLULHYAIAMFRDA=",
+            "x-amzn-remapped-content-length": "1379",
+            "x-amzn-remapped-date": "Tue, 04 Oct 2022 01:27:54 GMT",
+            "x-amzn-remapped-x-amzn-requestid": "ZdLULHYAIAMFRDA=",
+            "x-amzn-requestid": "ff8c2af7-839e-42c4-8920-995f45f0d349",
+            "x-amzn-trace-id": "Root=1-633b8c17-7105694b7ec16baa3334f594"
+        },
+        "HTTPStatusCode": 200,
+        "RequestId": "ff8c2af7-839e-42c4-8920-995f45f0d349",
+        "RetryAttempts": 0
+    },
+    "jobRun": {
+        "applicationId": "00f4h0hiljnrsv09",
+        "arn": "arn:aws:emr-serverless:us-east-1:272350763384:/applications/00f4h0hiljnrsv09/jobruns/00f4h28okslm1g09",
+        "configurationOverrides": {
+            "monitoringConfiguration": {
+                "s3MonitoringConfiguration": {
+                    "logUri": "s3://awsglue081222/logs"
+                }
+            }
+        },
+        "createdAt": "2022-10-04 00:45:28.642000+00:00",
+        "createdBy": "arn:aws:sts::272350763384:assumed-role/awsemrserverlessops/emrserverlessops",
+        "executionRole": "arn:aws:iam::272350763384:role/awsemrserverlessops",
+        "jobDriver": {
+            "sparkSubmit": {
+                "entryPoint": "s3://us-east-1.elasticmapreduce/emr-containers/samples/wordcount/scripts/wordcount.py",
+                "entryPointArguments": [
+                    "s3://awsglue081222/wordcount_output"
+                ],
+                "sparkSubmitParameters": "--conf spark.executor.cores=1 --conf spark.executor.memory=4g --conf spark.driver.cores=1 --conf spark.driver.memory=4g --conf spark.executor.instances=1"
+            }
+        },
+        "jobRunId": "00f4h28okslm1g09",
+        "name": "WordCountEMRServerlessJob",
+        "releaseLabel": "emr-6.7.0",
+        "state": "SUCCESS",
+        "stateDetails": "",
+        "tags": {
+            "Contact": "Vikram",
+            "Environment": "Testing"
+        },
+        "totalResourceUtilization": {
+            "memoryGBHour": 0.319,
+            "storageGBHour": 1.5,
+            "vCPUHour": 0.131
+        },
+        "updatedAt": "2022-10-04 00:50:01.681000+00:00"
+    }
+}
