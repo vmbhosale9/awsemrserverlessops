@@ -1,7 +1,4 @@
 import boto3
-from botocore.exceptions import ClientError
-import json
-import pkg_resources
 
 Available_emr_application_stats = ['CREATING','CREATED', 'STARTING', 'STARTED', 'STOPPING', 'STOPPED', 'TERMINATED']
 Valid_emr_application_stats = ['CREATING','CREATED', 'STARTING', 'STARTED', 'STOPPING', 'STOPPED']
