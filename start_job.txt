@@ -1,0 +1,16 @@
+http://lambdaalb-1528104618.us-east-1.elb.amazonaws.com/emr_serverless_start_job_run
+
+{
+    "jobtype": "spark",
+    "jobrunname": "WordCountEMRServerlessJob",
+    "appid": "00f4h0hiljnrsv09",
+    "rolearn": "arn:aws:iam::272350763384:role/awsemrserverlessops",
+    "entryPoint": "s3://us-east-1.elasticmapreduce/emr-containers/samples/wordcount/scripts/wordcount.py",
+    "entryPointArguments": "s3://awsglue081222/wordcount_output",
+    "sparkSubmitParameters": "--conf spark.executor.cores=1 --conf spark.executor.memory=4g --conf spark.driver.cores=1 --conf spark.driver.memory=4g --conf spark.executor.instances=1",
+    "loguri": "s3://awsglue081222/logs",
+    "contact": "Vikram",
+    "environment": "Testing"
+}
+
+{"ResponseMetadata": {"RequestId": "17dc585c-b665-4799-9b39-b6da4b69b073", "HTTPStatusCode": 200, "HTTPHeaders": {"date": "Tue, 04 Oct 2022 00:45:28 GMT", "content-type": "application/json", "content-length": "176", "connection": "keep-alive", "x-amzn-requestid": "17dc585c-b665-4799-9b39-b6da4b69b073", "x-amzn-remapped-x-amzn-requestid": "ZdFGXHq8oAMFe9Q=", "x-amzn-remapped-content-length": "176", "x-amz-apigw-id": "ZdFGXHq8oAMFe9Q=", "x-amzn-trace-id": "Root=1-633b8226-77cae28c121a15da3f7077b0", "x-amzn-remapped-date": "Tue, 04 Oct 2022 00:45:28 GMT"}, "RetryAttempts": 0}, "applicationId": "00f4h0hiljnrsv09", "jobRunId": "00f4h28okslm1g09", "arn": "arn:aws:emr-serverless:us-east-1:272350763384:/applications/00f4h0hiljnrsv09/jobruns/00f4h28okslm1g09"}
