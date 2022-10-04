@@ -536,7 +536,7 @@ def lambda_handler(event, context):
                     responsedata = "I failed to cancel EMR serverless job run with appid {} & jobrunid {} !".format(appid, jobrunid)
                 return {
                     'statusCode': 200,
-                    'body': json.dumps(responsedata)
+                    'body': json.dumps(responsedata, indent=4, sort_keys=True, default=str)
                 }
             except Exception as e:
                 return exception_handler(e)
@@ -558,10 +558,10 @@ def lambda_handler(event, context):
             try:
                 responsedata = emr_serverless_get_dashboard_for_job_run(appid, jobrunid)
                 if not responsedata:
-                    responsedata = "I failed to get dashboard uri for EMR serverless job with appid {} & jobrunid {} !".format(appid, jobrunid)
+                    responsedata = "I failed to get dashboard url for EMR serverless job with appid {} & jobrunid {} !".format(appid, jobrunid)
                 return {
                     'statusCode': 200,
-                    'body': json.dumps(responsedata)
+                    'body': json.dumps(responsedata, indent=4, sort_keys=True, default=str)
                 }
             except Exception as e:
                 return exception_handler(e)
@@ -586,7 +586,7 @@ def lambda_handler(event, context):
                     responsedata = "I failed to get job run status for EMR serverless job with appid {} & jobrunid {} !".format(appid, jobrunid)
                 return {
                     'statusCode': 200,
-                    'body': json.dumps(responsedata)
+                    'body': json.dumps(responsedata, indent=4, sort_keys=True, default=str)
                 }
             except Exception as e:
                 return exception_handler(e)
